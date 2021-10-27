@@ -1,7 +1,6 @@
 local function setup(args)
     local xplr = xplr
 
-    -- Parse args
     args = args or {}
     args.exe = args.exe or 'kitty'
     args.exe_launch = args.exe_launch or (args.exe == 'alacritty' and '--command' or nil)
