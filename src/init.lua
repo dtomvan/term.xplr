@@ -3,7 +3,7 @@ local function setup(args)
 
     -- Parse args
     args = args or {}
-    args.exe = args.exe or 'alacritty'
+    args.exe = args.exe or 'kitty'
     args.exe_launch = args.exe_launch or (args.exe == 'alacritty' and '--command' or nil)
     args.mode = args.mode or 'default'
     args.key = args.key or 'ctrl-n'

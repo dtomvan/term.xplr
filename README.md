@@ -6,7 +6,7 @@
 Requirements
 ------------
 
-- [Alacritty](https://github.com/alacritty/alacritty) (recommended) or any other terminal capable of launching programs
+- [Kitty](https://github.com/kovidgoyal/kitty) (recommended), [Alacritty](https://github.com/alacritty/alacritty) or any other terminal capable of launching programs
 
 
 Installation
@@ -25,17 +25,17 @@ Installation
   ```bash
   mkdir -p ~/.config/xplr/plugins
 
-  git clone https://github.com/sayanarijit/alacritty.xplr ~/.config/xplr/plugins/alacritty
+  git clone https://github.com/igorepst/term.xplr ~/.config/xplr/plugins/term
   ```
 
 - Require the module in `~/.config/xplr/init.lua`
 
   ```lua
-  require("alacritty").setup()
+  require("term").setup()
   
   -- Or
   
-  require("alacritty").setup{
+  require("term").setup{
     mode = "default",
     key = "ctrl-n",
     send_focus = true,
@@ -46,7 +46,7 @@ Installation
 
   -- Or
 
-  require('alacritty').setup{
+  require('term').setup{
     mode = 'default',
     key = 'ctrl-n',
     send_focus = true,
@@ -57,7 +57,7 @@ Installation
   }
 
 
-  -- Press `ctrl-n` to spawn a new terminal window with the current selection
+  -- Press `ctrl-n` to spawn a new terminal window
   ```
 
 
