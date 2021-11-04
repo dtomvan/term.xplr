@@ -35,18 +35,14 @@ Installation
   
   -- Or
   
-  require("term").setup{
-    mode = "default",
-    key = "ctrl-n",
-    send_focus = true,
-    send_selection = true,
-    extra_term_args = "",
-    extra_xplr_args = "",
-  }
+  local term = require('term')
+  local k_hsplit = term.profile_kitty_hsplit()
+  k_hsplit.key = 'ctrl-h'
+  term.setup({term.profile_kitty_vsplit(), k_hsplit})
 
   -- Or
 
-  require('term').setup{
+  require('term').setup({{
     mode = 'default',
     key = 'ctrl-n',
     send_focus = true,
@@ -54,12 +50,34 @@ Installation
     exe = 'kitty',
     extra_term_args = '@launch --no-response --location=vsplit',
     extra_xplr_args = '',
-  }
+  }})
 
 
-  -- Press `ctrl-n` to spawn a new terminal window
   ```
 
+Profiles
+--------
+The plugin supports passing multiple profiles, each represented by a Lua table.
+Each profile may have the following keys:
+
+- mode: xplr mode
+- key: keybinding to launch profile
+- exe: terminal's executable
+- exe_launch: terminal's way to launch external program (xplr)
+- extra_term_args: extra arguments for the terminal
+- extra_xplr_args: extra arguments for xplr
+- send_focus: whether to send focus to xplr
+- send_selection: whether to send selection to xplr
+- prof_name: profile name to show in xplr Help panel
+
+
+Built-in profiles
+-----------------
+- Default: does not define any terminal, may be used as a base profile. `profile_default()`
+- Kitty with vertical split `profile_kitty_vsplit()`
+- Kitty with horizontal split `profile_kitty_hsplit()`
+- Alacritty `profile_alacritty()`
+- Xterm `profile_xterm()`
 
 Features
 --------

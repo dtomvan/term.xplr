@@ -8,6 +8,7 @@ term.profile_default = function()
         extra_xplr_args = '',
         send_focus = true,
         send_selection = false,
+        prof_name = 'default'
     }
 end
 
@@ -15,6 +16,7 @@ term.profile_kitty_vsplit = function()
     local def = term.profile_default()
     def.exe = 'kitty'
     def.extra_term_args = '@launch --no-response --location=vsplit'
+    def.prof_name = 'kitty vsplit'
     return def
 end
 
@@ -22,6 +24,7 @@ term.profile_kitty_hsplit = function()
     local def = term.profile_default()
     def.exe = 'kitty'
     def.extra_term_args = '@launch --no-response --location=hsplit'
+    def.prof_name = 'kitty hsplit'
     return def
 end
 
@@ -29,6 +32,7 @@ term.profile_alacritty = function()
     local def = term.profile_default()
     def.exe = 'alacritty'
     def.exe_launch = '--command'
+    def.prof_name = 'alacritty'
     return def
 end
 
@@ -36,75 +40,81 @@ term.profile_xterm = function()
     local def = term.profile_default()
     def.exe = 'xterm'
     def.exe_launch = '-e'
+    def.prof_name = 'xterm'
     return def
 end
 
-term.setup = function(args)
+local common_f = function(app, args)
+    local cmd = args.exe .. ' '
+    if args.extra_term_args then
+        cmd = cmd .. args.extra_term_args .. ' '
+    end
+    if args.exe_launch then
+        cmd = cmd .. args.exe_launch .. ' '
+    end
+    cmd = cmd .. 'xplr --on-load ClearNodeFilters ClearNodeSorters'
 
-    args = args or {}
-    args.exe = args.exe or 'kitty'
-    args.exe_launch = args.exe_launch or (args.exe == 'alacritty' and '--command' or nil)
-    args.mode = args.mode or 'default'
-    args.key = args.key or 'ctrl-n'
-    args.extra_term_args = args.extra_term_args or ''
-    args.extra_xplr_args = args.extra_xplr_args or ''
-
----@diagnostic disable
-    local xplr = xplr
----@diagnostic enable
-    xplr.fn.custom.term_spawn_window = function(app)
-        local cmd = args.exe .. ' '
-        if args.extra_term_args then
-            cmd = cmd .. args.extra_term_args .. ' '
-        end
-        if args.exe_launch then
-            cmd = cmd .. args.exe_launch .. ' '
-        end
-        cmd = cmd .. 'xplr --on-load ClearNodeFilters ClearNodeSorters'
-
-        for _, x in ipairs(app.explorer_config.filters) do
-            cmd = cmd .. [[ 'AddNodeFilter: { filter: "]] .. x.filter .. [[", input: "]] .. x.input .. [[" }']]
-        end
-
-        for _, x in ipairs(app.explorer_config.sorters) do
-            cmd = cmd
-                .. [[ 'AddNodeSorter: { sorter: "]]
-                .. x.sorter
-                .. [[", reverse: ]]
-                .. tostring(x.reverse)
-                .. [[ }']]
-        end
-
-        cmd = cmd .. ' ExplorePwd'
-
-        if args.send_focus and app.focused_node then
-            cmd = cmd .. [[ 'FocusPath: "]] .. app.focused_node.absolute_path .. [["']]
-        end
-
-        if args.send_selection then
-            for _, node in ipairs(app.selection) do
-                cmd = cmd .. [[ 'SelectPath: "]] .. node.absolute_path .. [["']]
-            end
-        end
-
-        cmd = cmd .. ' ' .. args.extra_xplr_args .. ' &'
-
-        os.execute(cmd)
+    for _, x in ipairs(app.explorer_config.filters) do
+        cmd = cmd .. [[ 'AddNodeFilter: { filter: "]] .. x.filter .. [[", input: "]] .. x.input .. [[" }']]
     end
 
-    local messages = {
-        { CallLuaSilently = 'custom.term_spawn_window' },
-        'PopMode',
-    }
+    for _, x in ipairs(app.explorer_config.sorters) do
+        cmd = cmd .. [[ 'AddNodeSorter: { sorter: "]] .. x.sorter .. [[", reverse: ]] .. tostring(x.reverse) .. [[ }']]
+    end
+
+    cmd = cmd .. ' ExplorePwd'
+
+    if args.send_focus and app.focused_node then
+        cmd = cmd .. [[ 'FocusPath: "]] .. app.focused_node.absolute_path .. [["']]
+    end
 
     if args.send_selection then
-        table.insert(messages, 'ClearSelection')
+        for _, node in ipairs(app.selection) do
+            cmd = cmd .. [[ 'SelectPath: "]] .. node.absolute_path .. [["']]
+        end
     end
 
-    xplr.config.modes.builtin[args.mode].key_bindings.on_key[args.key] = {
-        help = 'new session',
-        messages = messages,
-    }
+    cmd = cmd .. ' ' .. args.extra_xplr_args .. ' &'
+
+    os.execute(cmd)
+end
+
+term.setup = function(args)
+    local terms = {}
+    args = args or {}
+    for _, v in pairs(args) do
+        if type(v) == 'table' then
+            local d = term.profile_default()
+            for k1, v1 in pairs(v) do
+                d[k1] = v1
+            end
+            table.insert(terms, d)
+        end
+    end
+    if #terms == 0 then
+        table.insert(terms, term.profile_xterm())
+    end
+
+    ---@diagnostic disable
+    local xplr = xplr
+    ---@diagnostic enable
+    for k, v in pairs(terms) do
+        xplr.fn.custom['term_spawn_window_' .. k] = function(app)
+            common_f(app, v)
+        end
+        local messages = {
+            { CallLuaSilently = 'custom.term_spawn_window_' .. k },
+            'PopMode',
+        }
+        if v.send_selection then
+            table.insert(messages, 'ClearSelection')
+        end
+        local help_msg = v.prof_name or k
+        xplr.config.modes.builtin[v.mode].key_bindings.on_key[v.key] = {
+            help = 'session ' .. help_msg,
+            messages = messages,
+        }
+    end
 end
 
 return term
