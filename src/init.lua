@@ -1,5 +1,45 @@
-local function setup(args)
-    local xplr = xplr
+local term = {}
+
+term.profile_default = function()
+    return {
+        mode = 'default',
+        key = 'ctrl-n',
+        extra_term_args = '',
+        extra_xplr_args = '',
+        send_focus = true,
+        send_selection = false,
+    }
+end
+
+term.profile_kitty_vsplit = function()
+    local def = term.profile_default()
+    def.exe = 'kitty'
+    def.extra_term_args = '@launch --no-response --location=vsplit'
+    return def
+end
+
+term.profile_kitty_hsplit = function()
+    local def = term.profile_default()
+    def.exe = 'kitty'
+    def.extra_term_args = '@launch --no-response --location=hsplit'
+    return def
+end
+
+term.profile_alacritty = function()
+    local def = term.profile_default()
+    def.exe = 'alacritty'
+    def.exe_launch = '--command'
+    return def
+end
+
+term.profile_xterm = function()
+    local def = term.profile_default()
+    def.exe = 'xterm'
+    def.exe_launch = '-e'
+    return def
+end
+
+term.setup = function(args)
 
     args = args or {}
     args.exe = args.exe or 'kitty'
@@ -9,6 +49,9 @@ local function setup(args)
     args.extra_term_args = args.extra_term_args or ''
     args.extra_xplr_args = args.extra_xplr_args or ''
 
+---@diagnostic disable
+    local xplr = xplr
+---@diagnostic enable
     xplr.fn.custom.term_spawn_window = function(app)
         local cmd = args.exe .. ' '
         if args.extra_term_args then
@@ -64,4 +107,4 @@ local function setup(args)
     }
 end
 
-return { setup = setup }
+return term
