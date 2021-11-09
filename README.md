@@ -1,18 +1,17 @@
+# Terminal integration for [xplr](https://xplr.dev)
+---------------------------------------------------
+
 [![alacritty-xplr.gif](https://s9.gifyu.com/images/alacritty-xplr.gif)](https://gifyu.com/image/GJGU)
 
 > **TIP:** Use it with [xclip.xplr](https://github.com/sayanarijit/xclip.xplr) for better copy-paste experience.
 
 
-Requirements
-------------
+## Requirements
 
 - [Kitty](https://github.com/kovidgoyal/kitty) (recommended), [Alacritty](https://github.com/alacritty/alacritty) or any other terminal capable of launching programs
 
 
-Installation
-------------
-
-### Install manually
+## Installation
 
 - Add the following line in `~/.config/xplr/init.lua`
 
@@ -55,9 +54,8 @@ Installation
 
   ```
 
-Profiles
---------
-The plugin supports passing multiple profiles, each represented by a Lua table.
+## Profiles
+The plugin supports passing multiple profiles, each represented by a Lua table.<br/>
 Each profile may have the following keys:
 
 - mode: xplr mode
@@ -71,17 +69,14 @@ Each profile may have the following keys:
 - prof_name: profile name to show in xplr Help panel
 
 
-Built-in profiles
------------------
+## Built-in profiles
 - Default: does not define any terminal, may be used as a base profile. `profile_default()`
 - Kitty with vertical split `profile_kitty_vsplit()`
 - Kitty with horizontal split `profile_kitty_hsplit()`
 - Alacritty `profile_alacritty()`
 - Xterm `profile_xterm()`
 
-Features
---------
-
+## Features
 - Send current focus to the new session.
 - Send current selection to the new session.
 - Send active sorters and filters to the new session.
