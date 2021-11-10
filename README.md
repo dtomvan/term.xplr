@@ -1,7 +1,12 @@
 # Terminal integration for [xplr](https://xplr.dev)
 ---------------------------------------------------
 
-[![alacritty-xplr.gif](https://s9.gifyu.com/images/alacritty-xplr.gif)](https://gifyu.com/image/GJGU)
+
+
+https://user-images.githubusercontent.com/1630792/141186127-6cabda77-2a03-4fa7-a07f-098a826017c5.mp4
+
+
+
 
 > **TIP:** Use it with [xclip.xplr](https://github.com/sayanarijit/xclip.xplr) for better copy-paste experience.
 
@@ -58,23 +63,23 @@
 The plugin supports passing multiple profiles, each represented by a Lua table.<br/>
 Each profile may have the following keys:
 
-- mode: xplr mode
+- mode: `xplr` mode
 - key: keybinding to launch profile
 - exe: terminal's executable
-- exe_launch: terminal's way to launch external program (xplr)
+- exe_launch: terminal's way to launch external program (`xplr`)
 - extra_term_args: extra arguments for the terminal
-- extra_xplr_args: extra arguments for xplr
-- send_focus: whether to send focus to xplr
-- send_selection: whether to send selection to xplr
-- prof_name: profile name to show in xplr Help panel
+- extra_xplr_args: extra arguments for `xplr`
+- send_focus: whether to send focus to `xplr`
+- send_selection: whether to send selection to `xplr`
+- prof_name: profile name to show in `xplr` Help panel
 
 
 ## Built-in profiles
 - Default: does not define any terminal, may be used as a base profile. `profile_default()`
-- Kitty with vertical split `profile_kitty_vsplit()`
-- Kitty with horizontal split `profile_kitty_hsplit()`
-- Alacritty `profile_alacritty()`
-- Xterm `profile_xterm()`
+- `Kitty` with vertical split `profile_kitty_vsplit()`
+- `Kitty` with horizontal split `profile_kitty_hsplit()`
+- `Alacritty` `profile_alacritty()`
+- `Xterm` `profile_xterm()`
 
 ## Features
 - Send current focus to the new session.
