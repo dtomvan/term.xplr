@@ -7,7 +7,7 @@ term.profile_default = function()
         extra_term_args = '',
         extra_xplr_args = '',
         send_focus = true,
-        send_selection = false,
+        send_selection = true,
         prof_name = 'default'
     }
 end
@@ -52,6 +52,7 @@ local common_f = function(app, args)
     if args.exe_launch then
         cmd = cmd .. args.exe_launch .. ' '
     end
+
     cmd = cmd .. 'xplr --on-load ClearNodeFilters ClearNodeSorters'
 
     for _, x in ipairs(app.explorer_config.filters) do
@@ -64,20 +65,28 @@ local common_f = function(app, args)
 
     cmd = cmd .. ' ExplorePwd'
 
+    cmd = cmd .. " " .. args.extra_xplr_args
+
     if args.send_focus and app.focused_node then
-        cmd = cmd .. [[ 'FocusPath: "]] .. app.focused_node.absolute_path .. [["']]
+      cmd = cmd
+        .. [[ --force-focus -- ']]
+        .. app.focused_node.absolute_path
+        .. [[']]
+    else
+      cmd = cmd .. [[ -- ']] .. app.pwd .. [[']]
     end
 
     if args.send_selection then
-        for _, node in ipairs(app.selection) do
-            cmd = cmd .. [[ 'SelectPath: "]] .. node.absolute_path .. [["']]
-        end
+      for _, node in ipairs(app.selection) do
+        cmd = cmd .. [[ ']] .. node.absolute_path .. [[']]
+      end
     end
 
-    cmd = cmd .. ' ' .. args.extra_xplr_args .. ' &'
+    cmd = cmd .. " &"
 
     os.execute(cmd)
 end
+
 
 term.setup = function(args)
     local terms = {}
@@ -103,7 +112,7 @@ term.setup = function(args)
             common_f(app, v)
         end
         local messages = {
-            { CallLuaSilently = 'custom.term_spawn_window_' .. k },
+            { CallLua = 'custom.term_spawn_window_' .. k },
             'PopMode',
         }
         if v.send_selection then
