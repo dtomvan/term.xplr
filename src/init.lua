@@ -7,7 +7,7 @@ term.profile_default = function()
         extra_term_args = '',
         extra_xplr_args = '',
         send_focus = true,
-        send_selection = true,
+        send_selection = false,
         prof_name = 'default'
     }
 end
