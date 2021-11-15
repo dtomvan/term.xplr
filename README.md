@@ -13,7 +13,7 @@ https://user-images.githubusercontent.com/1630792/141186127-6cabda77-2a03-4fa7-a
 
 ## Requirements
 
-- [Kitty](https://github.com/kovidgoyal/kitty) (recommended), [Alacritty](https://github.com/alacritty/alacritty) or any other terminal capable of launching programs
+- [Kitty](https://github.com/kovidgoyal/kitty) (recommended), [tmux](https://github.com/tmux/tmux), [Alacritty](https://github.com/alacritty/alacritty) or any other terminal / multiplexer capable of launching programs
 
 
 ## Installation
@@ -76,10 +76,12 @@ Each profile may have the following keys:
 
 ## Built-in profiles
 - Default: does not define any terminal, may be used as a base profile. `profile_default()`
-- `Kitty` with vertical split `profile_kitty_vsplit()`
-- `Kitty` with horizontal split `profile_kitty_hsplit()`
+- `kitty` with vertical split `profile_kitty_vsplit()`
+- `kitty` with horizontal split `profile_kitty_hsplit()`
+- `tmux` with vertical split `profile_tmux_vsplit()`
+- `tmux` with horizontal split `profile_tmux_hsplit()`
 - `Alacritty` `profile_alacritty()`
-- `Xterm` `profile_xterm()`
+- `xterm` `profile_xterm()`
 
 ## Features
 - Send current focus to the new session.

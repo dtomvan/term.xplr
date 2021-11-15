@@ -8,7 +8,7 @@ term.profile_default = function()
         extra_xplr_args = '',
         send_focus = true,
         send_selection = false,
-        prof_name = 'default'
+        prof_name = 'default',
     }
 end
 
@@ -44,6 +44,22 @@ term.profile_xterm = function()
     return def
 end
 
+term.profile_tmux_vsplit = function()
+    local def = term.profile_default()
+    def.exe = 'tmux'
+    def.extra_term_args = 'split-window -v'
+    def.prof_name = 'tmux vsplit'
+    return def
+end
+
+term.profile_tmux_hsplit = function()
+    local def = term.profile_default()
+    def.exe = 'tmux'
+    def.extra_term_args = 'split-window -h'
+    def.prof_name = 'tmux hsplit'
+    return def
+end
+
 local common_f = function(app, args)
     local cmd = args.exe .. ' '
     if args.extra_term_args then
@@ -65,28 +81,24 @@ local common_f = function(app, args)
 
     cmd = cmd .. ' ExplorePwd'
 
-    cmd = cmd .. " " .. args.extra_xplr_args
+    cmd = cmd .. ' ' .. args.extra_xplr_args
 
     if args.send_focus and app.focused_node then
-      cmd = cmd
-        .. [[ --force-focus -- ']]
-        .. app.focused_node.absolute_path
-        .. [[']]
+        cmd = cmd .. [[ --force-focus -- ']] .. app.focused_node.absolute_path .. [[']]
     else
-      cmd = cmd .. [[ -- ']] .. app.pwd .. [[']]
+        cmd = cmd .. [[ -- ']] .. app.pwd .. [[']]
     end
 
     if args.send_selection then
-      for _, node in ipairs(app.selection) do
-        cmd = cmd .. [[ ']] .. node.absolute_path .. [[']]
-      end
+        for _, node in ipairs(app.selection) do
+            cmd = cmd .. [[ ']] .. node.absolute_path .. [[']]
+        end
     end
 
-    cmd = cmd .. " &"
+    cmd = cmd .. ' &'
 
     os.execute(cmd)
 end
-
 
 term.setup = function(args)
     local terms = {}
