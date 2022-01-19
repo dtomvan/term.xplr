@@ -10,18 +10,23 @@ https://user-images.githubusercontent.com/1630792/141186127-6cabda77-2a03-4fa7-a
 
 > **TIP:** Use it with [xclip.xplr](https://github.com/sayanarijit/xclip.xplr) for better copy-paste experience.
 
-
 ## Requirements
 
 - [Kitty](https://github.com/kovidgoyal/kitty) (recommended), [tmux](https://github.com/tmux/tmux), [Alacritty](https://github.com/alacritty/alacritty), [wezterm](https://github.com/wez/wezterm) or any other terminal / multiplexer capable of launching programs
 
-
 ## Installation
+
+### Install manually
 
 - Add the following line in `~/.config/xplr/init.lua`
 
   ```lua
-  package.path = os.getenv("HOME") .. '/.config/xplr/plugins/?/src/init.lua'
+  local home = os.getenv("HOME")
+  package.path = home
+  .. "/.config/xplr/plugins/?/init.lua;"
+  .. home
+  .. "/.config/xplr/plugins/?.lua;"
+  .. package.path
   ```
 
 - Clone the plugin
@@ -35,10 +40,10 @@ https://user-images.githubusercontent.com/1630792/141186127-6cabda77-2a03-4fa7-a
 - Require the module in `~/.config/xplr/init.lua`
 
   ```lua
-  require("term").setup()
-  
+  require("alacritty").setup()
+
   -- Or
-  
+
   local term = require('term')
   local k_hsplit = term.profile_kitty_hsplit()
   k_hsplit.key = 'ctrl-h'
@@ -55,8 +60,6 @@ https://user-images.githubusercontent.com/1630792/141186127-6cabda77-2a03-4fa7-a
     extra_term_args = '@launch --no-response --location=vsplit',
     extra_xplr_args = '',
   }})
-
-
   ```
 
 ## Profiles
@@ -72,7 +75,6 @@ Each profile may have the following keys:
 - send_focus: whether to send focus to `xplr`
 - send_selection: whether to send selection to `xplr`
 - prof_name: profile name to show in `xplr` Help panel
-
 
 ## Built-in profiles
 - Default: does not define any terminal, may be used as a base profile. `profile_default()`
