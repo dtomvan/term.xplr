@@ -60,6 +60,38 @@ term.profile_tmux_hsplit = function()
     return def
 end
 
+term.profile_wezterm = function()
+    local def = term.profile_default()
+    def.exe = 'wezterm'
+    def.extra_term_args = 'cli spawn --new-window --'
+    def.prof_name = 'wezterm window'
+    return def
+end
+
+term.profile_wezterm_tab = function()
+    local def = term.profile_default()
+    def.exe = 'wezterm'
+    def.extra_term_args = 'cli spawn --'
+    def.prof_name = 'wezterm tab'
+    return def
+end
+
+term.profile_wezterm_vsplit = function()
+    local def = term.profile_default()
+    def.exe = 'wezterm'
+    def.extra_term_args = 'cli split-pane --'
+    def.prof_name = 'wezterm vsplit'
+    return def
+end
+
+term.profile_wezterm_hsplit = function()
+    local def = term.profile_default()
+    def.exe = 'wezterm'
+    def.extra_term_args = 'cli split-pane --horizontal --'
+    def.prof_name = 'wezterm hsplit'
+    return def
+end
+
 local common_f = function(app, args)
     local cmd = args.exe .. ' '
     if args.extra_term_args then

@@ -13,7 +13,7 @@ https://user-images.githubusercontent.com/1630792/141186127-6cabda77-2a03-4fa7-a
 
 ## Requirements
 
-- [Kitty](https://github.com/kovidgoyal/kitty) (recommended), [tmux](https://github.com/tmux/tmux), [Alacritty](https://github.com/alacritty/alacritty) or any other terminal / multiplexer capable of launching programs
+- [Kitty](https://github.com/kovidgoyal/kitty) (recommended), [tmux](https://github.com/tmux/tmux), [Alacritty](https://github.com/alacritty/alacritty), [wezterm](https://github.com/wez/wezterm) or any other terminal / multiplexer capable of launching programs
 
 
 ## Installation
@@ -82,6 +82,10 @@ Each profile may have the following keys:
 - `tmux` with horizontal split `profile_tmux_hsplit()`
 - `Alacritty` `profile_alacritty()`
 - `xterm` `profile_xterm()`
+- `wezterm` with `profile_wezterm()`
+- `wezterm` with tab `profile_wezterm_tab()`
+- `wezterm` with vsplit `profile_wezterm_vsplit()`
+- `wezterm` with hsplit `profile_wezterm_hsplit()`
 
 ## Features
 - Send current focus to the new session.
