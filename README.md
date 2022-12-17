@@ -88,6 +88,8 @@ Each profile may have the following keys:
 - `wezterm` with tab `profile_wezterm_tab()`
 - `wezterm` with vsplit `profile_wezterm_vsplit()`
 - `wezterm` with hsplit `profile_wezterm_hsplit()`
+- `zellij` with vsplit `profile_zellij_vsplit()`
+- `zellij` with hsplit `profile_zellij_hsplit()`
 
 ## Features
 - Send current focus to the new session.

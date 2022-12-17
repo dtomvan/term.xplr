@@ -96,6 +96,31 @@ term.profile_wezterm_hsplit = function()
     return def
 end
 
+-- TODO: Make it possible for Zellij to accept a command after ac new-tab
+-- term.profile_zellij_tab = function()
+--     local def = term.profile_default()
+--     def.exe = 'zellij'
+--     def.extra_term_args = 'ac new-tab --'
+--     def.prof_name = 'zellij tab'
+--     return def
+-- end
+
+term.profile_zellij_vsplit = function()
+    local def = term.profile_default()
+    def.exe = 'zellij'
+    def.extra_term_args = 'ac new-pane -d Down --'
+    def.prof_name = 'zellij vsplit'
+    return def
+end
+
+term.profile_zellij_hsplit = function()
+    local def = term.profile_default()
+    def.exe = 'zellij'
+    def.extra_term_args = 'ac new-pane -d Right --'
+    def.prof_name = 'zellij hsplit'
+    return def
+end
+
 local common_f = function(app, args)
     local cmd = args.exe .. ' '
     if args.extra_term_args then
